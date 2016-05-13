@@ -1254,7 +1254,7 @@ Template.ats2.rendered = () => {
   renderer.setClearAlpha(0);
 
   camera = new THREE.PerspectiveCamera( 35, canvasWidth/ canvasHeight, 1, 10000 );
-  if(atsApp.focalLength) camera.setLens(atsApp.focalLength);
+  if(atsApp.focalLength) camera.setFocalLength(atsApp.focalLength);
   /*
   camera = new THREE.OrthographicCamera( canvasWidth * -1/2,
                                          canvasWidth * 1/2,
