@@ -32,10 +32,20 @@ void main(){
        ){
       //If there's no filtering going on
       //or it's a filtered element that's been filtered out
-      gl_FragColor = vec4( itc.r * blendShade,
-                           itc.g * blendShade,
-                           itc.b * blendShade,
-                           1.0 );    
+      delta = 0.01;
+      alpha = smoothstep( 0.48 - delta, 0.48 + delta, dist);
+      c2 = vec4(0.6 * blendShade, 0.6 * blendShade, 0.6 * blendShade, 1.0);
+      c = vec4( itc.r * blendShade,
+                itc.g * blendShade,
+                itc.b * blendShade,
+                1.0 );    
+      gl_FragColor = mix(c, c2, alpha);
+      /*
+        gl_FragColor = vec4( itc.r * blendShade,
+        itc.g * blendShade,
+        itc.b * blendShade,
+        1.0 );    
+      */
     }else if(isFiltered < 1.0 && dist < 0.5){
       delta = 0.01;
       alpha = smoothstep( 0.5 - delta, 0.5 + delta, dist);
@@ -66,8 +76,17 @@ void main(){
                            itc.g * blendShade,
                            itc.b * blendShade,
                            1.0 );    
+
     }else{
-      gl_FragColor = vec4( itc.rgb, 1.0 );
+      if( isFiltered < 1.0){
+        gl_FragColor = vec4( itc.rgb, 1.0 );
+      }else{
+        delta = 0.01;
+        alpha = smoothstep( 0.4 - delta, 0.4 + delta, dist);
+        c2 = vec4(u_inner_color * blendShade, 1.0);
+        c = vec4( itc.rgb, 1.0 );
+        gl_FragColor = mix(c, c2, alpha);
+      }
     }
 
   }
