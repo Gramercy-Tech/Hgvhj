@@ -13,6 +13,11 @@ uniform float frameSize;
 uniform float blendShade;
 uniform float isFiltered;
 
+float delta;
+float alpha;
+vec4 c;
+vec4 c2;
+
 void main(){
   float dist = distance(vUv, vec2(0.5,0.5));
   float x = vUv.x;
@@ -32,11 +37,26 @@ void main(){
                            itc.b * blendShade,
                            1.0 );    
     }else if(isFiltered < 1.0 && dist < 0.5){
-      gl_FragColor = vec4( 0.6, 0.6, 0.6, 1.0 );
+      delta = 0.01;
+      alpha = smoothstep( 0.5 - delta, 0.5 + delta, dist);
+      c = vec4( 0.6, 0.6, 0.6, 1.0 );
+      c2 = vec4(0.0,0.0,0.0,1.0);
+      gl_FragColor = mix(c, c2, alpha);
     }else if(dist < 0.45){
-      gl_FragColor = vec4( u_inner_color * blendShade, 1.0 );            
+      //gl_FragColor = vec4( u_inner_color * blendShade, 1.0 );            
+      delta = 0.01;
+      alpha = smoothstep( 0.45 - delta, 0.45 + delta, dist);
+      c = vec4(u_inner_color * blendShade, 1.0);
+      //c2 = vec4(0.0,0.0,0.0,1.0);
+      c2 = vec4(u_outer_color * blendShade, 1.0);
+      gl_FragColor = mix(c, c2, alpha);
+
     }else if(dist < 0.5){
-      gl_FragColor = vec4( u_outer_color * blendShade, 1.0 );      
+      delta = 0.01;
+      alpha = smoothstep( 0.5 - delta, 0.5 + delta, dist);
+      c = vec4(u_outer_color * blendShade, 1.0);
+      c2 = vec4(0.0,0.0,0.0,1.0);
+      gl_FragColor = mix(c, c2, alpha);
     }else{
       gl_FragColor = vec4( vec3(0.0), 0.0 );
     }

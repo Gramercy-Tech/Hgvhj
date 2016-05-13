@@ -1272,7 +1272,7 @@ Template.ats2.rendered = () => {
   camera.lookAt( scene.position );
 
   if(FlowRouter.getQueryParam("controls")){
-    cameraControls = new THREE.OrbitControls( camera, renderer.domElement);
+    cameraControls = new OrbitControls( camera, renderer.domElement);
     cameraControls.target.set( 0, 0, 0 );
   }
 
