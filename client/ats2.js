@@ -1148,7 +1148,12 @@ let atsApp = {
     let w = el.width();
     let h = el.height();
     let newSize = Math.round( Math.pow(h * w, 0.5) / 75);
-    $(".references-pop-up-text div").css("font-size", newSize + "px");
+    let forceSize = +FlowRouter.getQueryParam("font");
+    if(forceSize){
+      $(".references-pop-up-text div").css("font-size", forceSize + "px");
+    }else{
+      $(".references-pop-up-text div").css("font-size", newSize + "px");
+    }
   }
 }
 
