@@ -1,0 +1,180 @@
+#ats-container canvas{
+    width: 100%;
+    height: 100%;
+}
+
+#ats-container #background-video{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+    background-size: cover;
+}
+
+#ats-container .touch-text-holder{
+    color: white;
+    font-family: 'Inconsolata';
+    pointer-events: none;
+    text-align: center;
+}
+
+#ats-container .touch-text-holder .touch-text {
+    position: fixed;
+    width: 100%
+}
+
+#ats-container .button-holder {
+    position: fixed;
+    bottom: 40px;
+    left: 20px;
+}
+
+#ats-container .button-holder #see-all-button{
+    transition: opacity 1s;
+    opacity: 0;
+}
+#ats-container .show {
+    opacity: 1.0 !important;
+}
+#ats-container .show img,
+#ats-container .show span{
+    pointer-events: all !important;
+}
+#ats-container .area-under-investigation{
+    transition: opacity 1s;
+    position: fixed;
+    bottom: 240px;
+    left: 20px;
+    color: white;
+    opacity: 0;
+    pointer-events: none;
+}
+#ats-container .area-under-investigation.show{
+    opacity: 1.0;
+}
+#ats-container .area-under-investigation.show img{
+    pointer-events: all;
+}
+
+#ats-container .area-under-investigation div{
+    margin-bottom: 10px;
+    font-size: 130%;
+    font-family: 'Inconsolata';
+    pointer-events: none;
+
+}
+#ats-container .area-under-investigation img {
+    position: relative;
+}
+#ats-container .area-under-investigation #asthma-button {
+    
+}
+#ats-container .area-under-investigation #large-button {
+    top: 45px;
+    left: -22px;
+}
+#ats-container .area-under-investigation #copd-button {
+    top: 88px;
+    left: -196px;
+}
+#ats-container .area-under-investigation #small-button {
+    top:132px;
+    left:-218px;
+}
+
+
+#ats-container .pop-up-holder {
+    position: fixed;
+    text-align: left;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+#ats-container .pop-up-container {
+    width: 40%;
+    min-height: 40%;
+    color: white;
+    margin: 15% auto;
+    border: 5px solid white;
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.8);
+    pointer-events: all;
+    transition: opacity 0.5s;
+    opacity: 0;
+    pointer-events: none;
+}
+#ats-container .pop-up-close {
+    background-color: rgba(0,0,0,0.0);
+    float: right;
+    width: 40px;
+    height: 45px;
+    border-left: 5px solid white;
+    border-bottom: 5px solid white;
+    border-radius: 8px;
+    margin-top: -5px;
+    margin-right: -5px;
+    position: relative;
+}
+#ats-container .pop-up-close span{
+    float: right;
+    margin-right: 12px;
+    margin-top: 10px;
+    font-size: 150%;
+    background-color: rgba(0,0,0,0.0);
+    cursor: pointer;
+}
+#ats-container .pop-up-video-container {
+    width: 31%;
+    height: 100%;
+    display: inline-block;
+    float: left;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+#ats-container .pop-up-video-container video{
+    margin-top: -42%;
+    margin-left: -50%;
+    width: 20vw;
+    height: 20vw;
+    /*
+    width: 200%;
+    height: 200%;
+   */
+}
+#ats-container .pop-up-video-container .round-video-mask{
+    width: 11vw;
+    height: 11vw;
+    border: 1px solid gray;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%); 
+    -webkit-transform: rotate(0.000001deg); 
+    -webkit-border-radius: 10px; 
+    -moz-border-radius: 10px;
+    border-radius: 9vw;
+    overflow: hidden; 
+}
+#ats-container .pop-up-text-container {
+    width: 62%;
+    float: left;
+    display: inline-block;
+    padding: 0px 5px;
+}
+#ats-container .pop-up-title {
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: -20px;
+    font-size: 120%;
+}
+#ats-container .pop-up-subtitle {
+    font-size: 110%;
+    margin-bottom: 15px;
+}
+#ats-container .pop-up-text {
+    font-weight: lighter;
+}

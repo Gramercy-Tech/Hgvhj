@@ -1,0 +1,92 @@
+<head>
+    <title>The Pipeline</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+</head>
+
+<template name="ats2">
+  <div id="ats2-container" class="">
+    <video id="background-video" src="moleculeImages/SC000_Plexus_Background_loop.mp4" autoplay loop muted>
+    </video>
+    <canvas class="display" id="ats-canvas" style=""></canvas>
+    <img id="pipeline-logo" src="moleculeImages/thepipeline_logo.png"/>
+    <img id="legal" src="moleculeImages/azap_text416.png"/>
+    <div id="phase-text-holder">
+      <div class="phase-text-title">
+        
+      </div>
+      <div class="phase-text">
+
+      </div>
+    </div>
+    <div class="touch-text-holder">
+      <div class="touch-text" style="display:none">
+        Touch to begin
+      </div>
+      <div class="touch-text" style="display:none">
+        Touch to begin
+      </div>
+      <div class="touch-text" style="display:none">
+        Touch to begin
+      </div>
+      <div class="touch-text" style="display:none">
+        Touch to begin
+      </div>
+      <div class="touch-text" style="display:none">
+        Touch to begin
+      </div>
+    </div>
+    <div class="area-under-investigation">
+      <div class="">
+        Area under investigation
+      </div>
+      <img id="asthma-button" data-filter-type="disease" src="moleculeImages/hex_asthma.png"/>
+      <img id="large-button" data-filter-type="size" src="moleculeImages/hex_large.png"/>
+      <img id="copd-button" data-filter-type="disease" src="moleculeImages/hex_copd.png"/>
+      <img id="small-button" data-filter-type="size" src="moleculeImages/hex_small.png"/>
+    </div>
+
+    <div class="button-holder">
+      <img id="see-all-button" src="moleculeImages/button_seeall.png"/>
+      <img id="references-button" src="moleculeImages/button_references.svg"/>
+    </div>
+    <div class="pop-up-holder">
+      <div class="pop-up-container">
+        <div class="pop-up-close">
+          <span>&#10006;&#xFE0E;</span>
+        </div>
+        <div class="pop-up-video-container">
+          <div class="round-video-mask">
+            <video id="pop-up-video" autoplay loop muted></video>
+          </div>
+
+        <div class="attributes-holder">
+          <div id="large-popup" src="moleculeImages/hex_large_popup.png">
+            Large Molecule
+          </div>
+          <div id="small-popup" src="moleculeImages/hex_small_popup.png">
+            Small Molecule
+          </div>
+        </div>
+        </div>
+        <div class="pop-up-text-container">
+          <div class="pop-up-title"></div>
+          <div class="pop-up-subtitle"></div>
+          <ul class="pop-up-text">
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="references-pop-up-holder">
+      <div class="references-pop-up-container">
+        <div class="pop-up-close">
+          <span>&#10006;&#xFE0E;</span>
+        </div>
+        <div class="references-pop-up-text">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,12 @@
+#metal-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+#metal-container #metal-webcam {
+    position:fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: -100;
+}

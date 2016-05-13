@@ -1,0 +1,22 @@
+#mirror-switch-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    text-align: center;
+}
+
+#mirror-switch-container canvas#overlay {
+    position: absolute;
+    transform : scaleX(-1);
+    z-index: 1;
+}
+
+#mirror-switch-container canvas, #mirror-switch-container video{
+
+
+}
+#mirror-switch-container video{
+    top: 50%;
+    transform: translateY(-50%);
+    position:relative;
+}

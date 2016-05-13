@@ -1,0 +1,13 @@
+#mirror-video-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    text-align: center;
+}
+#mirror-video-container img.child-image{
+    
+    height: 100%;
+}
+body {
+    margin: 0;
+}
