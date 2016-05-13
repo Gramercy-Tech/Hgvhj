@@ -255,10 +255,13 @@ let atsApp = {
           if(!p.parent.isSprouted){
             /* REALLY BAD AWFUL HACK TO SPEED UP TWEENS TEMPORARILY*/
             let durationHolder = this.sproutDuration;
-            this.tweenEasing = TWEEN.Easing.Back.InOut;
             //this.tweenEasing = TWEEN.Easing.Elastic.Out;
             //this.sproutDuration = this.sproutDuration / 1;
-            this.sproutDuration = this.sproutDuration / 3;
+
+            this.tweenEasing = TWEEN.Easing.Back.InOut;
+            //this.sproutDuration = this.sproutDuration / 3;
+            this.sproutDuration = this.sproutDuration / 5;
+
 
             let tween = atsApp.showPhaseChildren(p, true) 
             this.sproutDuration = durationHolder;
