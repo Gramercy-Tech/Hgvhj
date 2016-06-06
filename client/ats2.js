@@ -1,5 +1,7 @@
 'use strict';
 import  { THREE } from 'three';
+import { BrowserPolicy } from 'meteor/browser-policy';
+
 const OrbitControls = require("three-orbit-controls")(THREE);
 
 let atsApp = {
@@ -33,7 +35,7 @@ let atsApp = {
   rootScale: 140,
   linewidth: 1,
   //cameraDistance: +FlowRouter.getQueryParam("d") || 820,
-  cameraDistance: +FlowRouter.getQueryParam("d") || 820,
+  cameraDistance: +FlowRouter.getQueryParam("d") || 950,
   //cameraDistanceFactor: 1.2,
   cameraDistanceFactor: 1.2,
   //focalLength: 13,
@@ -49,12 +51,17 @@ let atsApp = {
   tweenEasing: TWEEN.Easing.Elastic.Out,
   moleculeAttributes: ['asthma', 'copd', 'large', 'small'],
   controlsEnabled: true,
+  rootGroupY: 0,
   currentFilter: {
     size:undefined, 
     disease: undefined,
   },
   cameraTarget: new THREE.Vector3(0,0,0),
   handleClick: function(event){
+    let backgroundVideo = $("video#background-video")[0];
+    if(backgroundVideo.paused){
+      backgroundVideo.play();
+    }
     TWEEN.removeAll();
     this.clearTouchTextRootAnimationCycle();
     switch (this.currentMode){
@@ -78,7 +85,7 @@ let atsApp = {
     this.goToTouchTextTimeout = Meteor.setTimeout( () => {
       this.reset();
       this.runTouchTextMode();
-      this.rootGroup.position.set(0,0,0);
+      this.rootGroup.position.set(0,this.rootGroupY,0);
     }, this.maxIdleTime);
   },
   handleRootClick(event){
@@ -232,7 +239,7 @@ let atsApp = {
     this.rootGroup.visible = true;
     coordinates = this.mouseToScene(coordinates);
     this.rootGroup.position.setX(1 * coordinates[0]);
-    this.rootGroup.position.setY(coordinates[1]);
+    this.rootGroup.position.setY(coordinates[1] + this.rootGroupY);
 
     let fadeTarget = {opacity: 0};
     let fadeTween = new TWEEN.Tween(fadeTarget).to(
@@ -382,8 +389,10 @@ let atsApp = {
     spriteMolecule.currentDisplayTime = 0;
     spriteMolecule.startTile = c.assetsStart  - 1;
     //spriteMolecule.currentTile = spriteMolecule.startTile;
-
+    c.duration = 3;
+    c.assetsEnd = 30;
     spriteMolecule.animationDuration = 1000 * c.duration;
+    
     spriteMolecule.numberFrames = c.assetsEnd - c.assetsStart + 1;
     spriteMolecule.currentTile = Math.ceil(Math.random() * spriteMolecule.numberFrames);
     map.repeat.set( 1, 1 / spriteMolecule.numberFrames );
@@ -578,7 +587,7 @@ let atsApp = {
 
     this.touchTextPositions = this.shuffle(positions);
     //Create text sprite
-    this.textureLoader.load("moleculeImages/touch_transparent.png", (texture) => {
+    this.textureLoader.load("moleculeImages/touch_transparent_2.png", (texture) => {
       let textSpriteMaterial = new THREE.SpriteMaterial( {map: texture} );
       let textSprite = new THREE.Sprite( textSpriteMaterial );      
       textSprite.scale.setX( 60 * 32 / 5 );
@@ -867,6 +876,11 @@ let atsApp = {
       m.currentDisplayTime += deltaMS;
       if(m.currentDisplayTime > m.mspf){
         m.currentTile = (m.currentTile + 1) % m.numberFrames;
+        /*
+        if(m.currentTile > 40){
+          m.currentTile =0;
+        }
+        */
         m.material.map.offset.y = (m.currentTile / m.numberFrames);
         m.currentDisplayTime = 0;
         m.material.uniforms.yOffset.value = (m.currentTile / m.numberFrames);
@@ -1150,21 +1164,64 @@ let atsApp = {
     let el = $(".references-pop-up-container")
     let w = el.width();
     let h = el.height();
-    let newSize = Math.round( Math.pow(h * w, 0.5) / 75);
+    //let newSize = Math.round( Math.pow(h * w, 0.5) / 75);
+    let newSize = 12;
     let forceSize = +FlowRouter.getQueryParam("font");
     if(forceSize){
       $(".references-pop-up-text div").css("font-size", forceSize + "px");
     }else{
       $(".references-pop-up-text div").css("font-size", newSize + "px");
     }
+  },
+  checkIfTexturesLoaded(){
+    let num = Object.keys( phaseChildren ).reduce( (a, b) => {
+      return a + Object.keys(phaseChildren[b]).length;
+    }, 0) - 1;
+    if(num == Object.keys(this.textures).length && $("#background-video")){
+      Session.set("showSpinner", false);
+      atsApp.runTouchTextMode();
+      atsApp.showRoot([window.innerWidth/2, window.innerHeight/2]);
+      atsApp.showPipelineText();
+      atsApp.resizeReferencesText();
+
+      //this.canvas.width = window.innerWidth;
+      //this.canvas.height = window.innerHeight;
+
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+
+
+      if(window.orientation === 0 || window.orientation == 180){
+        this.rootGroupY = 250;
+      }else{
+        this.rootGroupY = 0;
+        this.camera.position.z = this.cameraDistance - 60;
+      }
+      this.rootGroup.position.y = this.rootGroupY
+    }else{
+      Meteor.setTimeout( () => {
+        console.log(num + ", " + Object.keys(this.textures).length);
+        this.checkIfTexturesLoaded();
+      }, 1000 );
+    }
   }
+
 }
 
 window.atsApp = atsApp;
 
+Meteor.Spinner.options = {
+  color: "#0000ff",
+  radius: 25,
+  length: 20,
+  width: 8
+}
 
 Template.ats2.helpers({
-  
+  showSpinner(){
+    return Session.get("showSpinner");
+  }
 });
 
 Template.ats2.events({
@@ -1220,7 +1277,7 @@ Template.ats2.events({
 });
 
 Template.ats2.rendered = () => {
-
+  Session.set("showSpinner", true);
   atsApp.cameraDistance = +FlowRouter.getQueryParam("d") || atsApp.cameraDistance;
   atsApp.maxIdleTime = (+FlowRouter.getQueryParam("t") || 120) * 1000;
   var texturePaths = [
@@ -1255,13 +1312,16 @@ Template.ats2.rendered = () => {
   renderer = new THREE.WebGLRenderer( {canvas, alpha: true, antialias: true });
   renderer.setPixelRatio( window.devicePixelRatio );
 
-  renderer.setSize( canvasWidth, canvasHeight );
+  renderer.setSize( window.innerWidth, window.innerHeight);
   window.renderer = renderer;
 
   renderer.setClearColor( new THREE.Color( 0x000000, 0.0 ) );
   renderer.setClearAlpha(0);
 
-  camera = new THREE.PerspectiveCamera( 35, canvasWidth/ canvasHeight, 1, 10000 );
+  camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 10000 );
+  atsApp.camera = camera;
+  atsApp.canvas = renderer.domElement;
+  atsApp.renderer = renderer;
   if(atsApp.focalLength) camera.setFocalLength(atsApp.focalLength);
   /*
   camera = new THREE.OrthographicCamera( canvasWidth * -1/2,
@@ -1274,9 +1334,12 @@ Template.ats2.rendered = () => {
   camera.position.set( 0, 0, atsApp.cameraDistance );
   camera.lookAt( scene.position );
 
-  if(FlowRouter.getQueryParam("controls")){
+  //if(FlowRouter.getQueryParam("controls")){
+  if(true){
     cameraControls = new OrbitControls( camera, renderer.domElement);
     cameraControls.target.set( 0, 0, 0 );
+    cameraControls.enableRotate = false;
+    cameraControls.enablePan = false;
   }
 
   ambientLight = new THREE.AmbientLight(0xffffff);
@@ -1289,14 +1352,9 @@ Template.ats2.rendered = () => {
   window.scene = scene;
   
   atsApp.createRoot();
-  /*
-  atsApp.createPhases();
-  atsApp.createAllMolecules();
-  atsApp.addReferencesText();
-  atsApp.showRoot([0,0], true);
-  */
   canvas.style.opacity = 0;
   animate();
+  /*
   setTimeout( () => {
     canvas.style.opacity = 1;
     atsApp.hideRoot();
@@ -1306,16 +1364,40 @@ Template.ats2.rendered = () => {
     atsApp.showPipelineText();
     atsApp.resizeReferencesText();
   }, 5000);
+  */
+  setTimeout( () => {
+    canvas.style.opacity = 1;
+    atsApp.hideRoot();
+    atsApp.hidePhases();
+    /*
+    atsApp.runTouchTextMode();
+    atsApp.showRoot([window.innerWidth/2, window.innerHeight/2]);
+    atsApp.showPipelineText();
+    atsApp.resizeReferencesText();
+    */
+    atsApp.checkIfTexturesLoaded();
+  }, 2000);
+
 
   window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", onResize);
 
   function onResize(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    renderer.setSize(canvas.width, canvas.height);
-    camera.aspect = canvas.width /canvas.height;
+    TWEEN.removeAll();
+    //canvas.width = window.innerWidth;
+    //canvas.height = window.innerHeight;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     atsApp.resizeReferencesText();
+    if(window.orientation == 0 || window.orientation == 180){
+      atsApp.rootGroupY = 250;
+      atsApp.camera.position.z = atsApp.cameraDistance;
+    }else{
+      atsApp.camera.position.z = atsApp.cameraDistance - 60;
+      atsApp.rootGroupY = 0;
+    }
+    atsApp.rootGroup.position.y = atsApp.rootGroupY
   }
 
   function animate(){

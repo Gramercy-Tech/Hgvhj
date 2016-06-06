@@ -1,0 +1,1 @@
+BrowserPolicy.framing.allowAll();
