@@ -1,20 +1,42 @@
 <head>
-    <title>The Pipeline</title>
+  <title>EACCI 2016 Pipeline Touchscreen</title>
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 </head>
 
-<template name="ats2">
-  <div id="ats2-container" class="">
+<template name="bgb">
+  <div id="bgb-container" class="">
+    <div id="menu-container">
+      <div id="buttons" class="home">
+        <div class="menu-button-holder">
+        <div id="home-btn" class="button one">HOME</div>
+        <div id="pipeline-btn" class="button two">PRODUCTS <span class="nowrap">IN PIPELINE</span></div>
+        <div id="trials-btn" class="button three">CLINICAL TRIALS</div>
+        <div class="clear"></div>
+        </div>
+        <p>Touch to begin</p>
+      </div>
+      <div id="footer">
+        <p>atlas id: 972,519.011, date of prep: May 2016, date of expiry: June 2016</p>
+        <img src="moleculeImages/az-logo.png" width="125" height="auto" class="logo">
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    <div id="iframe-container">
+      <iframe id="trials" src="http://ats.mtgarchitect.com"></iframe>
+    </div>
+    <video id="background-video" src="moleculeImages/SC000_Plexus_Background_loop.mp4" autoplay loop muted>
+    </video>
+    <div id="pipeline">
     {{#if showSpinner}}
     {{> spinner }}
     {{/if}}
-    <video id="background-video" src="moleculeImages/SC000_Plexus_Background_loop.mp4" autoplay loop muted>
-    </video>
-    <canvas class="display" id="ats-canvas" style=""></canvas>
+    <canvas class="display" id="bgb-canvas" style=""></canvas>
     <img draggable="false" id="pipeline-logo" src="moleculeImages/thepipeline_logo.png"/>
-    <img draggable="false" id="legal" src="moleculeImages/azap_footer.png"/>
+    <!--img draggable="false" id="legal" src="moleculeImages/azap_footer_2.png"/-->
     <div id="phase-text-holder">
       <div class="phase-text-title">
         
@@ -94,5 +116,6 @@
         </div>
       </div>
     </div>
+    </div><!-- End pipeline container -->
   </div>
 </template>
