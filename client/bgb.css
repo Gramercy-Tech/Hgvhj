@@ -12,7 +12,9 @@
 html{
     overflow-y: hidden;
     overflow-x: hidden;
-
+    width: 100vw;
+    height: 100vh;
+    background:black;
 }
 #bgb-container #background-video{
     position: fixed;
@@ -480,9 +482,6 @@ html{
     text-align: center;
 }
 iframe, #pipeline {
-
-	position:absolute;
-	top:60px;
 	left:0;
 	width:100%;
 
@@ -491,10 +490,25 @@ iframe, #pipeline {
 }
 iframe{
     display:none;
-    height: calc( 100% - 77px - 60px );
+    height: calc( 100vh - 77px - 60px );    
+    margin: 0 auto;
+    position:relative;
+}
+#iframe-container{
+    background-color: black;
+    text-align: center;
+    height: calc( 100vh - 77px - 60px );    
+
+    position: absolute;
+    top: 60px;
+
 }
 #pipeline {
-    height: calc( 100% - 77px - 60px );
+	position:absolute;
+
+	top:60px;
+
+    height: calc( 100vh - 77px - 60px );
 }
 #buttons.home .menu-button-holder {
     margin: 0 auto;
