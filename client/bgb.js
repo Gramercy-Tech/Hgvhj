@@ -1211,6 +1211,14 @@ let bgbApp = {
         this.checkIfTexturesLoaded();
       }, 1000 );
     }
+  },
+  setIFrameSize(){
+    //get iframe height
+    let h = $("iframe").height();
+    let w = h / 9 * 16;
+    $("iframe").width( w );
+    let l = (window.innerWidth - w) / 2;
+    $("iframe").css( "left", l );
   }
 
 }
@@ -1302,12 +1310,16 @@ Template.bgb.events({
 
 		$('.button').removeClass('selected');
 		$('iframe, #pipeline').fadeOut(500);
-		$('#background-video').fadeIn(500);
+		//$('#background-video').fadeIn(500);
 		$('#buttons').removeClass('visible');
 		$('#buttons').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
 		  $('#buttons').removeClass('header').addClass('home');
 		  //document.getElementById('pipeline').src = document.getElementById('pipeline').src;
-		  //document.getElementById('trials').src = document.getElementById('trials').src;
+          bgbApp.reset();
+          bgbApp.runTouchTextMode();
+          bgbApp.rootGroup.position.set(0, bgbApp.rootGroupY,0);
+          
+		  document.getElementById('trials').src = document.getElementById('trials').src;
 		});
 		setTimeout(function(){
 		  $('#buttons p').fadeIn(500);
@@ -1352,6 +1364,7 @@ Template.bgb.events({
   */
 });
 Template.bgb.rendered = () => {
+  bgbApp.setIFrameSize();
   $("#pipeline").fadeOut();
   //Session.set("showSpinner", true);
   Session.set("showSpinner", false);
@@ -1455,16 +1468,20 @@ Template.bgb.rendered = () => {
 
   window.addEventListener("resize", onResize);
   //canvas.addEventListener("resize", onResize);
-  window.addEventListener("orientationchange", onResize);
+  //window.addEventListener("orientationchange", onResize);
 
   function onResize(){
     TWEEN.removeAll();
-    //canvas.width = $(bgbApp.canvas).innerWidth();
+    $("#bgb-canvas").width( window.innerWidth );
+    //canvas.width = window.innerWidth * renderer.getPixelRatio();
     //canvas.height = $(bgbApp.canvas).innerHeight();
+
     renderer.setSize($(canvas).innerWidth(), $(canvas).innerHeight());
     camera.aspect = $(canvas).innerWidth() / $(canvas).innerHeight();
     camera.updateProjectionMatrix();
+
     bgbApp.resizeReferencesText();
+    bgbApp.setIFrameSize();
     /*
     if(window.orientation == 0 || window.orientation == 180){
       bgbApp.rootGroupY = 250;
