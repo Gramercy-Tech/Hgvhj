@@ -34,6 +34,7 @@ html{
     position: absolute;
     height: 100vh;
     width: 100vw;
+    pointer-events: none;
 }
 
 #bp-container .touch-text-holder{
@@ -267,6 +268,7 @@ html{
     float: left;
     padding-left: 10px;
     padding-top: 20px;
+    text-align: center;
 }
 #bp-container .pop-up-video-container video{
     margin-top: -42%;
@@ -291,9 +293,10 @@ html{
     margin: 0 auto;
 }
 #bp-container .pop-up-video-container #pop-up-img{
-    width: 11vw;
-    height: 11vw;
+    width: 15vw;
+
     /*
+    height: 11vw;
     width: 20vw;
     height: 20vw;
    */

@@ -373,7 +373,7 @@ let bpApp = {
     spriteMolecule.copd = c.copd;
     spriteMolecule.asthma = c.asthma;
     //spriteMolecule.video = c.assetDirectory + "/" + c.video;
-    spriteMolecule.imgSrc = c.assetDirectory + "/" + "output.png";
+    spriteMolecule.imgSrc = c.assetDirectory + "/" + "output_full.png";
     spriteMolecule.currentDisplayTime = 0;
     spriteMolecule.startTile = c.assetsStart  - 1;
     //spriteMolecule.currentTile = spriteMolecule.startTile;
@@ -1223,6 +1223,8 @@ Template.bp.events({
 
 Template.bp.rendered = () => {
   Session.set("showSpinner", true);
+  let playbackRate = +FlowRouter.getQueryParam("p") || 0.5;
+  $("video")[0].playbackRate = playbackRate;
   bpApp.cameraDistance = +FlowRouter.getQueryParam("d") || bpApp.cameraDistance;
   bpApp.maxIdleTime = (+FlowRouter.getQueryParam("t") || 120) * 1000;
   var texturePaths = [
