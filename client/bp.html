@@ -7,10 +7,14 @@
 
 <template name="bp">
   <div id="bp-container" class="">
+    <div id="bg-overlay">
+
+    </div>
     {{#if showSpinner}}
     {{> spinner }}
     {{/if}}
-    <video id="background-video" src="moleculeImages/SC000_Plexus_Background_loop.mp4" autoplay loop muted>
+    <!--video id="background-video" src="moleculeImages/SC000_Plexus_Background_loop.mp4" autoplay loop muted-->
+    <video id="background-video" src="bp/bg.mp4" autoplay loop muted>
     </video>
     <canvas class="display" id="bp-canvas" style=""></canvas>
     <!--img draggable="false" id="pipeline-logo" src="moleculeImages/thepipeline_logo.png"/-->
@@ -50,9 +54,10 @@
           <span>&#10006;&#xFE0E;</span>
         </div>
         <div class="pop-up-video-container">
-          <div class="round-video-mask">
-            <video id="pop-up-video" autoplay loop muted></video>
-          </div>
+          <!--div class="round-video-mask"-->
+            <!--video id="pop-up-video" autoplay loop muted></video-->
+            <img id="pop-up-img" />
+          <!--/div-->
 
         <div class="attributes-holder">
 

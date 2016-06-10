@@ -27,6 +27,14 @@ html{
     background-size: cover;
     -webkit-filter: brightness(0.6);
 }
+#bg-overlay{
+    z-index: -99;
+    opacity: 0.6;
+    background-color: #333333;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+}
 
 #bp-container .touch-text-holder{
     color: white;
@@ -281,6 +289,14 @@ html{
     border-radius: 9vw;
     overflow: hidden; 
     margin: 0 auto;
+}
+#bp-container .pop-up-video-container #pop-up-img{
+    width: 11vw;
+    height: 11vw;
+    /*
+    width: 20vw;
+    height: 20vw;
+   */
 }
 #bp-container .pop-up-text-container {
     width: calc(62% - 40px);

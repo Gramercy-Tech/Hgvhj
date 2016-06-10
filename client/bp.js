@@ -331,7 +331,7 @@ let bpApp = {
     return childGroup;
   },
   createMoleculeNode( c ) {
-    let assetPath = c.assetDirectory + "/" + "output.jpg";
+    let assetPath = c.assetDirectory + "/" + "output.png";
     var childGroup = new THREE.Object3D();
     var map = this.textures[c.name];
     map.wrapS = map.wrapT = THREE.RepeatWrapping;
@@ -372,7 +372,8 @@ let bpApp = {
     spriteMolecule.small = c.small;
     spriteMolecule.copd = c.copd;
     spriteMolecule.asthma = c.asthma;
-    spriteMolecule.video = c.assetDirectory + "/" + c.video;
+    //spriteMolecule.video = c.assetDirectory + "/" + c.video;
+    spriteMolecule.imgSrc = c.assetDirectory + "/" + "output.png";
     spriteMolecule.currentDisplayTime = 0;
     spriteMolecule.startTile = c.assetsStart  - 1;
     //spriteMolecule.currentTile = spriteMolecule.startTile;
@@ -569,7 +570,7 @@ let bpApp = {
 
     this.touchTextPositions = this.shuffle(positions);
     //Create text sprite
-    this.textureLoader.load("moleculeImages/touch_transparent_2.png", (texture) => {
+    this.textureLoader.load("moleculeImages/touch_transparent.png", (texture) => {
       let textSpriteMaterial = new THREE.SpriteMaterial( {map: texture} );
       let textSprite = new THREE.Sprite( textSpriteMaterial );      
       textSprite.scale.setX( 60 * 32 / 5 );
@@ -939,18 +940,26 @@ let bpApp = {
     $(".pop-up-subtitle").text(molecule.subtitle);
     //Set the text
     $(".pop-up-text").html(molecule.text);
+    /*
     //Set the video
     let video = document.getElementById("pop-up-video");
     video.src = molecule.video;
     video.load();
+    */
+    //Show the image
+    let img = document.getElementById("pop-up-img");
+    img.src = molecule.imgSrc;
     $(".pop-up-container").addClass("show");
     this.showPopupMoleculeAttributes(molecule);
   },
   hidePopup(){
     this.popUpActive = false
+    /*
     let video = document.getElementById("pop-up-video");
     video.pause();
     video.src = "";
+    */
+    //let img = document.getElementById("pop-up-img");
     $(".pop-up-container").removeClass("show");
   },
   showFilterMenu(){
