@@ -177,7 +177,7 @@ let bpApp = {
     //this.showRoot([window.innerWidth/2, window.innerHeight/2]);
     this.showSeeAll();
     this.hideFilterMenu();
-    this.hidePipelineText();
+    //this.hidePipelineText();
     let tween = this.createFadeOutRootTween();
     tween.onComplete( () => {
       //this.setBoomerangOpacity( 1.0 );
