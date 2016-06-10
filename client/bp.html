@@ -14,7 +14,10 @@
     {{> spinner }}
     {{/if}}
     <!--video id="background-video" src="moleculeImages/SC000_Plexus_Background_loop.mp4" autoplay loop muted-->
-    <video id="background-video" src="bp/bg.mp4" autoplay loop muted>
+    <!--video id="background-video" src="bp/{{bgVideo}}" autoplay loop muted-->
+    <video id="background-video" src="bp/bg.mp4" loop muted>
+    </video>
+    <video id="background-video-screensaver" src="bp/bg_screensaver.mp4" autoplay loop muted>
     </video>
     <canvas class="display" id="bp-canvas" style=""></canvas>
     <img draggable="false" id="pipeline-logo" src="bp/bp_logo.png"/>
@@ -46,7 +49,7 @@
     </div>
 
     <div class="button-holder">
-      <img draggable="false" id="see-all-button" src="moleculeImages/button_seeall.png"/>
+      <img draggable="false" id="see-all-button" src="bp/button_seeall.png"/>
     </div>
     <div class="pop-up-holder">
       <div class="pop-up-container">

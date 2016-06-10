@@ -15,6 +15,9 @@ html{
 
 }
 #bp-container #background-video{
+    opacity: 0;
+}
+#bp-container #background-video, #bp-container #background-video-screensaver{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -26,6 +29,7 @@ html{
     transform: translateX(-50%) translateY(-50%);
     background-size: cover;
     -webkit-filter: brightness(0.6);
+    transition: opacity 1s;
 }
 #bg-overlay{
     z-index: -99;

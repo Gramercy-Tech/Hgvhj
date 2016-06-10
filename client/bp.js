@@ -165,6 +165,7 @@ let bpApp = {
     this.showPipelineText();
     this.moveCameraTo(new THREE.Vector3(0,0,this.cameraDistance));
     camera.lookAt( scene );
+    this.showScreensaverVideo();
   },
   runTouchTextMode(){
     this.currentMode = "touchText";
@@ -172,6 +173,7 @@ let bpApp = {
     this.createTouchTextRootAnimationCycle();
   },
   runRootMode(event){
+    this.showBackgroundVideo();
     let coordinates = [event.clientX, event.clientY];
     this.currentMode = "root";
     //this.showRoot([window.innerWidth/2, window.innerHeight/2]);
@@ -570,7 +572,7 @@ let bpApp = {
 
     this.touchTextPositions = this.shuffle(positions);
     //Create text sprite
-    this.textureLoader.load("moleculeImages/touch_transparent.png", (texture) => {
+    this.textureLoader.load("bp/touch_transparent.png", (texture) => {
       let textSpriteMaterial = new THREE.SpriteMaterial( {map: texture} );
       let textSprite = new THREE.Sprite( textSpriteMaterial );      
       textSprite.scale.setX( 60 * 32 / 5 );
@@ -582,7 +584,7 @@ let bpApp = {
     });
 
     //Create touch icons
-    this.textureLoader.load("moleculeImages/finger_icon.png", (texture) => {
+    this.textureLoader.load("bp/finger_icon.png", (texture) => {
       for(var i = 0; i < numSprites; i++){
         let spriteMaterial = new THREE.SpriteMaterial( { map: texture });
         spriteMaterial.transparent = true;
@@ -1158,8 +1160,20 @@ let bpApp = {
         this.checkIfTexturesLoaded();
       }, 1000 );
     }
+  },
+  showScreensaverVideo(){
+    $("#background-video").css( "opacity", 0.0);
+    setTimeout( () => {
+      $("#background-video-screensaver").css( "opacity", 1.0);
+    }, 1000)
+    
+  },
+  showBackgroundVideo(){
+    $("#background-video").css( "opacity", 1.0);
+    setTimeout( () => {
+      $("#background-video-screensaver").css( "opacity", 0.0);
+    }, 1000);
   }
-
 }
 
 window.bpApp = bpApp;
@@ -1174,6 +1188,12 @@ Meteor.Spinner.options = {
 Template.bp.helpers({
   showSpinner(){
     return Session.get("showSpinner");
+  },
+  bgVideo(){
+    let vid = +FlowRouter.getQueryParam("v") || 1;
+    return vid == 1
+      ? "bg.mp4"
+      : "bg_screensaver.mp4";
   }
 });
 
@@ -1224,7 +1244,9 @@ Template.bp.events({
 Template.bp.rendered = () => {
   Session.set("showSpinner", true);
   let playbackRate = +FlowRouter.getQueryParam("p") || 0.5;
-  $("video")[0].playbackRate = playbackRate;
+  $("#background-video")[0].playbackRate = playbackRate;
+  let playbackRate1 = +FlowRouter.getQueryParam("p1") || 0.5;
+  $("#background-video-screensaver")[0].playbackRate = playbackRate1;
   bpApp.cameraDistance = +FlowRouter.getQueryParam("d") || bpApp.cameraDistance;
   bpApp.maxIdleTime = (+FlowRouter.getQueryParam("t") || 120) * 1000;
   var texturePaths = [
