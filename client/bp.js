@@ -84,6 +84,7 @@ let bpApp = {
     this.goToTouchTextTimeout = Meteor.setTimeout( () => {
       this.reset();
       this.runTouchTextMode();
+      this.showScreensaverVideo();
       this.rootGroup.position.set(0,this.rootGroupY,0);
     }, this.maxIdleTime);
   },
@@ -165,7 +166,7 @@ let bpApp = {
     this.showPipelineText();
     this.moveCameraTo(new THREE.Vector3(0,0,this.cameraDistance));
     camera.lookAt( scene );
-    this.showScreensaverVideo();
+
   },
   runTouchTextMode(){
     this.currentMode = "touchText";
@@ -952,6 +953,7 @@ let bpApp = {
     let img = document.getElementById("pop-up-img");
     img.src = molecule.imgSrc;
     $(".pop-up-container").addClass("show");
+    img.onload = () => img.classList.add("show");
     this.showPopupMoleculeAttributes(molecule);
   },
   hidePopup(){
@@ -963,6 +965,9 @@ let bpApp = {
     */
     //let img = document.getElementById("pop-up-img");
     $(".pop-up-container").removeClass("show");
+    let img = document.getElementById("pop-up-img");
+    img.src = "";
+    img.classList.remove( "show" );
   },
   showFilterMenu(){
     let elements = $(".area-under-investigation");
@@ -1165,13 +1170,15 @@ let bpApp = {
     $("#background-video").css( "opacity", 0.0);
     setTimeout( () => {
       $("#background-video-screensaver").css( "opacity", 1.0);
+      $("#bg-overlay").css("opacity", 0.2);
     }, 1000)
     
   },
   showBackgroundVideo(){
-    $("#background-video").css( "opacity", 1.0);
+    $("#background-video-screensaver").css( "opacity", 0.0);
     setTimeout( () => {
-      $("#background-video-screensaver").css( "opacity", 0.0);
+    $("#background-video").css( "opacity", 1.0);
+    $("#bg-overlay").css("opacity", 0.6);
     }, 1000);
   }
 }

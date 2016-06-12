@@ -26,7 +26,7 @@ phaseChildrenBP = {
       assetsStart: 1,
       assetsEnd: 1,
       duration: 5,
-      text: "We believe <em>adults love to learn, but hate to be told</em>; BLUEPRINT NYC learning strategists, backed by a full team of talented writers, eagle eye editors, graphic wizards, video peeps, and crazed coders create content that educates, engages, and inspires learners on their journey.",
+      text: "We believe <b>adults love to learn, but hate to be told</b>; BLUEPRINT NYC learning strategists, backed by a full team of talented writers, eagle eye editors, graphic wizards, video peeps, and crazed coders create content that educates, engages, and inspires learners on their journey.",
       video: "output.mp4",
       label: "label_Contentdev.png",
     },

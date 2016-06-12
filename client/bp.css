@@ -33,12 +33,13 @@ html{
 }
 #bg-overlay{
     z-index: -99;
-    opacity: 0.6;
+    opacity: 0.2;
     background-color: #333333;
     position: absolute;
     height: 100vh;
     width: 100vw;
     pointer-events: none;
+    transition: opacity 1s;
 }
 
 #bp-container .touch-text-holder{
@@ -173,7 +174,7 @@ html{
     border: 5px solid white;
     border-radius: 12px;
     background-color: rgba(0,0,0,0.8);
-    transition: opacity 0.5s;
+    transition: opacity 1.0s;
     opacity: 0;
     /*
     pointer-events: none;
@@ -283,6 +284,13 @@ html{
     width: 200%;
     height: 200%;
    */
+}
+#bp-container .pop-up-video-container img{
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+#bp-container .pop-up-video-container img.show{
+   opacity: 1.0;
 }
 #bp-container .pop-up-video-container .round-video-mask{
     width: 11vw;
