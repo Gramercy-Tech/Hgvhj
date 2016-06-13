@@ -102,6 +102,16 @@ phaseChildrenBP = {
       video: "output.mp4",
       label: "label_Strategiccom.png",
     },
+    {
+      name: "Virtual Reality",
+      assetDirectory: "bp/vr",
+      assetsStart: 1,
+      assetsEnd: 1,
+      duration: 5,
+      text: "BlueprintNYC can use virtual reality to give your learners, customers, and training special insight into complex concepts and stories. Whether you use high quality medical animation or documentary style 360 videos, VR can offer a new perspective and new opportunities in training.",
+      video: "output.mp4",
+      label: "label_vr.png",
+    },
 
   ],
   "phase3": [
