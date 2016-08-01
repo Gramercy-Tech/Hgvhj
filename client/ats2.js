@@ -1221,6 +1221,12 @@ Meteor.Spinner.options = {
 Template.ats2.helpers({
   showSpinner(){
     return Session.get("showSpinner");
+  },
+  loggedIn(){
+    return Session.get("loggedIn");
+  },
+  hasError(){
+    return Session.get("hasError");
   }
 });
 
@@ -1274,10 +1280,45 @@ Template.ats2.events({
       atsApp.removeMoleculeFilter(filterBy, filterType);
     }
   },
+  'click button.login-button': (event, template) => {
+    var pw = $("input").val();
+    Meteor.call("auth", pw, (err, response) => {
+      if(err){
+        console.log("Error getting file: ");
+        console.log(err);
+      }else{
+        if(response){
+          Session.set("hasError", false);
+          Session.set("loggedIn", true);
+          Session.set("showSpinner", true);
+          animate();
+          setTimeout( () => {
+            canvas.style.opacity = 1;
+            atsApp.hideRoot();
+            atsApp.hidePhases();
+            /*
+              atsApp.runTouchTextMode();
+              atsApp.showRoot([window.innerWidth/2, window.innerHeight/2]);
+              atsApp.showPipelineText();
+              atsApp.resizeReferencesText();
+            */
+            atsApp.checkIfTexturesLoaded();
+          }, 2000);
+
+        }else{
+          Session.set("hasError", true);
+        }
+      }
+    });
+  },
+  'keyup .login input': (evt, template) => {
+    Session.set("hasError", false);
+  }
 });
 
 Template.ats2.rendered = () => {
-  Session.set("showSpinner", true);
+  //Session.set("showSpinner", true);
+  Session.set("showSpinner", false);
   atsApp.cameraDistance = +FlowRouter.getQueryParam("d") || atsApp.cameraDistance;
   atsApp.maxIdleTime = (+FlowRouter.getQueryParam("t") || 120) * 1000;
   var texturePaths = [
@@ -1304,7 +1345,7 @@ Template.ats2.rendered = () => {
       shaderMaterial, geometry, plane,
       animation, animations = [],
       clock, appMode;
-
+  window.canvas = canvas;
   clock = new THREE.Clock();
   window.clock = clock;
   scene = new THREE.Scene();
@@ -1353,31 +1394,15 @@ Template.ats2.rendered = () => {
   
   atsApp.createRoot();
   canvas.style.opacity = 0;
+/*
   animate();
-  /*
   setTimeout( () => {
     canvas.style.opacity = 1;
     atsApp.hideRoot();
     atsApp.hidePhases();
-    atsApp.runTouchTextMode();
-    atsApp.showRoot([window.innerWidth/2, window.innerHeight/2]);
-    atsApp.showPipelineText();
-    atsApp.resizeReferencesText();
-  }, 5000);
-  */
-  setTimeout( () => {
-    canvas.style.opacity = 1;
-    atsApp.hideRoot();
-    atsApp.hidePhases();
-    /*
-    atsApp.runTouchTextMode();
-    atsApp.showRoot([window.innerWidth/2, window.innerHeight/2]);
-    atsApp.showPipelineText();
-    atsApp.resizeReferencesText();
-    */
     atsApp.checkIfTexturesLoaded();
   }, 2000);
-
+*/
 
   window.addEventListener("resize", onResize);
   window.addEventListener("orientationchange", onResize);
@@ -1405,6 +1430,7 @@ Template.ats2.rendered = () => {
     update();
     render();
   }
+  window.animate = animate;
   function render(){
     renderer.render( scene, camera );
   }

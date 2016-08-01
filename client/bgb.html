@@ -9,6 +9,20 @@
 <template name="bgb">
   <div id="bgb-container" class="">
     <div id="menu-container">
+    {{#unless loggedIn }}
+    <div class="login">
+      <input id="password" type="password" placeholder="Enter Password"/>
+      <button class="login-button">
+        Login
+      </button>
+      {{#if hasError }}
+      <div class="error">
+        Wrong password
+      </div>
+      {{/if}}
+    </div>
+{{ else }}
+
       <div id="buttons" class="home">
         <div class="menu-button-holder">
         <div id="home-btn" class="button one">HOME</div>
@@ -18,6 +32,7 @@
         </div>
         <p>Touch to begin</p>
       </div>
+    {{/unless}}
       <div id="footer">
         <p>atlas id: 972,519.011, date of prep: May 2016, date of expiry: June 2016</p>
         <img src="moleculeImages/az-logo.png" width="125" height="auto" class="logo">

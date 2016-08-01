@@ -7,6 +7,19 @@
 
 <template name="ats2">
   <div id="ats2-container" class="">
+    {{#unless loggedIn }}
+    <div class="login">
+      <input id="password" type="password" placeholder="Enter Password"/>
+      <button class="login-button">
+        Login
+      </button>
+      {{#if hasError }}
+      <div class="error">
+        Wrong password
+      </div>
+      {{/if}}
+    </div>
+    {{/unless}}
     {{#if showSpinner}}
     {{> spinner }}
     {{/if}}
@@ -94,5 +107,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>

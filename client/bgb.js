@@ -1235,6 +1235,12 @@ Meteor.Spinner.options = {
 Template.bgb.helpers({
   showSpinner(){
     return Session.get("showSpinner");
+  },
+  loggedIn(){
+    return Session.get("loggedIn");
+  },
+  hasError(){
+    return Session.get("hasError");
   }
 });
 
@@ -1335,6 +1341,41 @@ Template.bgb.events({
 	  }
 	}
   },
+  'click button.login-button': (event, template) => {
+    var pw = $("input").val();
+    Meteor.call("auth", pw, (err, response) => {
+      if(err){
+        console.log("Error getting file: ");
+        console.log(err);
+      }else{
+        if(response){
+          Session.set("hasError", false);
+          Session.set("loggedIn", true);
+          Session.set("showSpinner", true);
+          animate();
+          setTimeout( () => {
+            bgbApp.canvas.style.opacity = 1;
+            bgbApp.hideRoot();
+            bgbApp.hidePhases();
+            /*
+              atsApp.runTouchTextMode();
+              atsApp.showRoot([window.innerWidth/2, window.innerHeight/2]);
+              atsApp.showPipelineText();
+              atsApp.resizeReferencesText();
+            */
+            bgbApp.checkIfTexturesLoaded();
+          }, 2000);
+
+        }else{
+          Session.set("hasError", true);
+        }
+      }
+    });
+  },
+  'keyup .login input': (evt, template) => {
+    Session.set("hasError", false);
+  }
+
   /*
   'click .button#home-btn': (event, template) => {
 	if ($('#buttons').hasClass('home')) {
@@ -1367,6 +1408,7 @@ Template.bgb.rendered = () => {
   bgbApp.setIFrameSize();
   $("#pipeline").fadeOut();
   //Session.set("showSpinner", true);
+  //Session.set("showSpinner", false);
   Session.set("showSpinner", false);
   bgbApp.cameraDistance = +FlowRouter.getQueryParam("d") || bgbApp.cameraDistance;
   bgbApp.maxIdleTime = (+FlowRouter.getQueryParam("t") || 120) * 1000;
@@ -1440,31 +1482,15 @@ Template.bgb.rendered = () => {
   
   bgbApp.createRoot();
   canvas.style.opacity = 0;
-  animate();
   /*
+  animate();
   setTimeout( () => {
     canvas.style.opacity = 1;
     bgbApp.hideRoot();
     bgbApp.hidePhases();
-    bgbApp.runTouchTextMode();
-    bgbApp.showRoot([$(bgbApp.canvas).innerWidth()/2, $(bgbApp.canvas).innerHeight()/2]);
-    bgbApp.showPipelineText();
-    bgbApp.resizeReferencesText();
-  }, 5000);
-  */
-  setTimeout( () => {
-    canvas.style.opacity = 1;
-    bgbApp.hideRoot();
-    bgbApp.hidePhases();
-    /*
-    bgbApp.runTouchTextMode();
-    bgbApp.showRoot([$(bgbApp.canvas).innerWidth()/2, $(bgbApp.canvas).innerHeight()/2]);
-    bgbApp.showPipelineText();
-    bgbApp.resizeReferencesText();
-    */
     bgbApp.checkIfTexturesLoaded();
   }, 2000);
-
+  */
 
   window.addEventListener("resize", onResize);
   //canvas.addEventListener("resize", onResize);
@@ -1499,6 +1525,7 @@ Template.bgb.rendered = () => {
     update();
     render();
   }
+  window.animate = animate;
   function render(){
     renderer.render( scene, camera );
   }

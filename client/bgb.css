@@ -381,7 +381,8 @@ html{
     flex-direction: column;
     justify-content: center;
 
-	position:absolute;
+	position:absolute;;
+
 	top:0;
 	left:0;
     /*
@@ -522,3 +523,32 @@ iframe{
 	to {box-shadow: 0 0 20px #8ffffe; }
 }
 
+.login {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    background-color: black;
+    font-family: monospace;
+    padding-top: 45%;
+    z-index: 100;
+}
+.login *{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+.login input{
+    height: 50px;
+    width: 300px;
+}
+.login button{
+    width: 250px;
+}
+#bgb-container .error{
+    color: red;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    font-size: 200%;
+}
