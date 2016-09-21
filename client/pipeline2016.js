@@ -85,6 +85,7 @@ let atsApp = {
     this.goToTouchTextTimeout = Meteor.setTimeout( () => {
       this.reset();
       this.runTouchTextMode();
+      this.showScreensaverVideo();
       this.rootGroup.position.set(0,this.rootGroupY,0);
     }, this.maxIdleTime);
   },
@@ -173,6 +174,7 @@ let atsApp = {
     this.createTouchTextRootAnimationCycle();
   },
   runRootMode(event){
+    this.showBackgroundVideo();
     let coordinates = [event.clientX, event.clientY];
     this.currentMode = "root";
     //this.showRoot([window.innerWidth/2, window.innerHeight/2]);
@@ -255,12 +257,14 @@ let atsApp = {
     let zTween = this.createZTween(coordinates);
     if(immediate){
       this.setBoomerangOpacity(1.0);
-      this.showPhases(true);
+      //this.showPhases(true);
+      this.showPhases(false);
       if(showMolecules){
         let phases = atsApp.phases.map( (p) => p.children[0] );
+        /*
         phases.forEach( (p,i) => {
           if(!p.parent.isSprouted){
-            /* REALLY BAD AWFUL HACK TO SPEED UP TWEENS TEMPORARILY*/
+            // REALLY BAD AWFUL HACK TO SPEED UP TWEENS TEMPORARILY
             let durationHolder = this.sproutDuration;
             //this.tweenEasing = TWEEN.Easing.Elastic.Out;
             //this.sproutDuration = this.sproutDuration / 1;
@@ -279,10 +283,11 @@ let atsApp = {
             });
             Meteor.setTimeout( () => {
               tween.start();
-            }, 500);//450 is when this tween's val first is equal to 1
+            }, 300);//450 is when this tween's val first is equal to 1
             //}, (i+0) * 100 + 500);
           }
         });
+        */
       }
 
     }else{
@@ -534,7 +539,7 @@ let atsApp = {
     let fadeTarget = {opacity: 1.0};
     let fadeTween = new TWEEN.Tween(fadeTarget).to(
       {opacity:0.0}, 
-      500,
+      300,
       TWEEN.Easing.Exponential.InOut
     );
     fadeTween.onUpdate(() => {
@@ -1205,6 +1210,21 @@ let atsApp = {
         this.checkIfTexturesLoaded();
       }, 1000 );
     }
+  },
+  showScreensaverVideo(){
+    $("#background-video").css( "opacity", 0.0);
+    setTimeout( () => {
+      $("#background-video-screensaver").css( "opacity", 1.0);
+      $("#bg-overlay").css("opacity", 0.2);
+    }, 1000)
+    
+  },
+  showBackgroundVideo(){
+    $("#background-video-screensaver").css( "opacity", 0.0);
+    setTimeout( () => {
+    $("#background-video").css( "opacity", 1.0);
+    $("#bg-overlay").css("opacity", 0.6);
+    }, 1000);
   }
 
 }
@@ -1317,10 +1337,26 @@ Template.pipeline2016.events({
 });
 
 Template.pipeline2016.rendered = () => {
-  //Session.set("showSpinner", true);
-  Session.set("showSpinner", false);
+  if(window.location.href.match('localhost')){
+    Session.set("loggedIn", true);
+    Session.set("hasError", false);
+    Session.set("loggedIn", true);
+    Session.set("showSpinner", true);
+    setTimeout( () => {
+      animate();
+      canvas.style.opacity = 1;
+      atsApp.hideRoot();
+      atsApp.hidePhases();
+      atsApp.checkIfTexturesLoaded();
+    }, 2000);
+  }else{
+    Session.set("showSpinner", false);
+    Session.set("loggedIn", false);
+  }
   let playbackRate = +FlowRouter.getQueryParam("p") || 0.5;
   $("#background-video")[0].playbackRate = playbackRate;
+  let playbackRate1 = +FlowRouter.getQueryParam("p1") || 0.5;
+  $("#background-video-screensaver")[0].playbackRate = playbackRate1;
   atsApp.cameraDistance = +FlowRouter.getQueryParam("d") || atsApp.cameraDistance;
   atsApp.maxIdleTime = (+FlowRouter.getQueryParam("t") || 120) * 1000;
   var texturePaths = [
