@@ -1413,6 +1413,7 @@ Template.pipeline2016.rendered = () => {
   camera.position.set( 0, 0, atsApp.cameraDistance );
   camera.lookAt( scene.position );
 
+
   //if(FlowRouter.getQueryParam("controls")){
   if(true){
     cameraControls = new OrbitControls( camera, renderer.domElement);
